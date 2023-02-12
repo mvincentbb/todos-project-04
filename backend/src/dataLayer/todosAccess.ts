@@ -43,6 +43,65 @@ export class TodosAccess{
         return todoItem as TodoItem
     }
 
+    async updateTodoAttachementUrl(
+        todoId: string,
+        userId: string,
+        attachementUrl: string) : Promise<void> {
+        logger.info("update the attachment url")
 
+        await this.documentClient
+            .update({
+            TableName: this.todoTable,
+            Key:{
+                todoId,
+                userId
+            },
+            UpdateExpression: 'set attachmentUrl = :attachementUrl',
+            ExpressionAttributeValues:{
+                ':attachmentUrl' : attachementUrl
+            }
+        }).promise()
+    }
+
+    async updateTodoItem(
+        userId: string,
+        todoId: string,
+        todoUpdate: TodoUpdate
+    ):Promise<TodoUpdate>{
+        const result = await this.documentClient
+            .update({
+                TableName: this.todoTable,
+                Key:{
+                    todoId,
+                    userId
+                },
+                UpdateExpression: 'set #name = :name, dueDate = :dueDate, done = :done',
+                ExpressionAttributeValues: {
+                    ':name': todoUpdate.name,
+                    ':dueDate': todoUpdate.dueDate,
+                    ':done': todoUpdate.done,
+                },
+                ExpressionAttributeNames:{
+                    '#name':'name',
+                },
+                ReturnValues:'ALL_NEW'
+            }).promise()
+        const todoItemUpdate = result.Attributes
+        logger.info('Todo item is successfully updated', todoItemUpdate)
+        return todoItemUpdate as TodoUpdate
+    }
+
+    async deleteTodoItem(todoId:string, userId:string):Promise<string>{
+        logger.info('Delete a todo item')
+        const result = await this.documentClient.delete({
+            TableName: this.todoTable,
+            Key:{
+                todoId,
+                userId
+            }
+        }).promise()
+        logger.info("todo item deleted", result)
+        return todoId as string
+    }
 
 }
