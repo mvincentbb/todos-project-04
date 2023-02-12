@@ -54,8 +54,12 @@ export default class App extends Component<AppProps, AppState> {
   }
 
   generateMenu() {
+
+
     return (
+      // @ts-ignore
       <Menu>
+         {/*@ts-ignore*/}
         <Menu.Item name="home">
           <Link to="/">Home</Link>
         </Menu.Item>
@@ -68,12 +72,14 @@ export default class App extends Component<AppProps, AppState> {
   logInLogOutButton() {
     if (this.props.auth.isAuthenticated()) {
       return (
+        // @ts-ignore
         <Menu.Item name="logout" onClick={this.handleLogout}>
           Log Out
         </Menu.Item>
       )
     } else {
       return (
+        // @ts-ignore
         <Menu.Item name="login" onClick={this.handleLogin}>
           Log In
         </Menu.Item>
@@ -86,6 +92,7 @@ export default class App extends Component<AppProps, AppState> {
       return <LogIn auth={this.props.auth} />
     }
 
+    // @ts-ignore
     return (
       <Switch>
         <Route
@@ -103,7 +110,7 @@ export default class App extends Component<AppProps, AppState> {
             return <EditTodo {...props} auth={this.props.auth} />
           }}
         />
-
+        {/*@ts-ignore*/}
         <Route component={NotFound} />
       </Switch>
     )
