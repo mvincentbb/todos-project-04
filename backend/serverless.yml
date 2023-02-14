@@ -57,46 +57,32 @@ functions:
   Auth:
     handler: src/lambda/auth/auth0Authorizer.handler
 
-  # TODO: Configure this function - 
-  # Provide iamRoleStatements property for performing Actions on DynamoDB
-#  GetTodos:
-#    handler: src/lambda/http/getTodos.handler
-#    events:
-#      - http:
-#          method: get
-#          path: todos
-#          cors: true
-#          authorizer: Auth
 
-  # TODO: Configure this function - 
-#   Provide iamRoleStatements property. Decide the Actions and AWS Resource.
-#   To refer to an AWS resource defined in the "Resources" section, you can use "Resource: !GetAtt <resource-name>.Arn"
-#   To validate incoming HTTP requests, we have provided the request schemas in function definition below.
-#  CreateTodo:
-#    handler: src/lambda/http/createTodo.handler
-#    events:
-#      - http:
-#          method: post
-#          path: todos
-#          cors: true
-#          authorizer: Auth
-#          reqValidatorName: RequestBodyValidator
-#          documentation:
-#            summary: Create a new task on your todo list
-#            description: Create a new task on your todo list
-#            requestModels:
-#              'application/json': CreateTodoRequest
-#    iamRoleStatementsName: ${self:provider.environment.PROJECT_NAME}-create-todo-role-${sls:stage}
-#    iamRoleStatements:
-#      - Effect: Allow
-#        Action:
-#          - dynamodb:PutItem
-#        Resource: arn:aws:dynamodb:${aws:region}:*:table/${self:provider.environment.TODOS_TABLE}
-#      - Effect: Allow
-#        Action:
-#          - xray:PutTraceSegments
-#        Ressource:
-#          - '*'
+  GetTodos:
+    handler: src/lambda/http/getTodos.handler
+    events:
+      - http:
+          method: get
+          path: todos
+          cors: true
+          authorizer: Auth
+    iamRoleStatementsName: ${self:provider.environment.PROJECT_NAME}-get-todo-role-${sls:stage}
+    iamRoleStatements:
+      - Effect: Allow
+        Action:
+          - dynamodb:Query
+        Resource: arn:aws:dynamodb:${aws:region}:*:table/${self:provider.environment.TODOS_TABLE}
+      - Effect: Allow
+        Action:
+          - dynamodb:Query
+        Resource: arn:aws:dynamodb:${aws:region}:*:table/${self:provider.environment.TODOS_TABLE}/index/${self:provider.environment.TODOS_CREATED_AT_INDEX}
+      - Effect: Allow
+        Action:
+          - xray:PutTraceSegments
+        Resource:
+          - '*'
+
+
   CreateTodo:
     handler: src/lambda/http/createTodo.handler
     events:
