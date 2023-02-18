@@ -16,7 +16,7 @@ export class TodosAccess{
         private readonly todoTable: string = process.env.TODOS_TABLE,
         private readonly todoIndex: string = process.env.INDEX_NAME
     ) {}
-
+    //get all the todos
     async getAllTodos(userId: string): Promise<TodoItem[]>{
         logger.info('Get all the todo')
 
@@ -32,7 +32,7 @@ export class TodosAccess{
         const todos = result.Items
         return todos as TodoItem[]
     }
-
+    //create a new todo
     async createTodoItem(todoItem: TodoItem): Promise<TodoItem>{
         logger.info("Create a new todo element")
         const newTodoItem = await this.documentClient.put({

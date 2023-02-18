@@ -11,11 +11,12 @@ const logger = createLogger('TodosAccess');
 const attachmentUtils = new AttachmentUtils();
 const todosAccess = new TodosAccess();
 
+//function to get all the todos corresponding to a user
 export async function getTodosForUser(userId: string): Promise<TodoItem[]> {
     logger.info('Get todos based on user');
     return todosAccess.getAllTodos(userId);
 }
-
+//function to create a new todo
 export async function createTodo(
     newTodo: CreateTodoRequest,
     userId: string
@@ -35,7 +36,7 @@ export async function createTodo(
     return await todosAccess.createTodoItem(item);
 }
 
-
+//function to update a todo
 export async function updateTodo(
     userId: string,
     todoId: string,
@@ -45,7 +46,7 @@ export async function updateTodo(
     return await todosAccess.updateTodoItem(userId, todoId, todoUpdate);
 }
 
-
+//function to update the attachment url
 export async function deleteTodo(
     todoId: string,
     userId: string
@@ -54,7 +55,7 @@ export async function deleteTodo(
     return todosAccess.deleteTodoItem(todoId, userId);
 }
 
-
+//function to creat an attachment url
 export async function createAttachmentPresignedUrl(
     todoId: string,
     userId: string
