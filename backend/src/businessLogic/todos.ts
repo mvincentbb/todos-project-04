@@ -2,8 +2,8 @@ import { TodosAccess } from '../dataLayer/todosAccess';
 import { AttachmentUtils } from '../helpers/attachmentUtils';
 import { TodoItem } from '../models/TodoItem';
 import { CreateTodoRequest } from '../requests/CreateTodoRequest';
-// import { UpdateTodoRequest } from '../requests/UpdateTodoRequest';
-// import { TodoUpdate } from '../models/TodoUpdate';
+import { UpdateTodoRequest } from '../requests/UpdateTodoRequest';
+import { TodoUpdate } from '../models/TodoUpdate';
 import { createLogger } from '../utils/logger';
 import { v4 as uuid } from 'uuid';
 
@@ -35,7 +35,7 @@ export async function createTodo(
     return await todosAccess.createTodoItem(item);
 }
 
-/*
+
 export async function updateTodo(
     userId: string,
     todoId: string,
@@ -44,22 +44,21 @@ export async function updateTodo(
     logger.info('Update todo');
     return await todosAccess.updateTodoItem(userId, todoId, todoUpdate);
 }
-*/
 
-/*export async function deleteTodo(
+
+export async function deleteTodo(
     todoId: string,
     userId: string
 ): Promise<string> {
     logger.info('Delete todo');
     return todosAccess.deleteTodoItem(todoId, userId);
-}*/
+}
 
-/*
+
 export async function createAttachmentPresignedUrl(
     todoId: string,
     userId: string
 ): Promise<string> {
-    logger.info('Create attachment presigned URL');
+    logger.info('Create  a new presigned URL attachment', todoId, userId);
     return attachmentUtils.getUploadUrl(todoId);
 }
-*/
